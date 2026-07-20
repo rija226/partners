@@ -1,0 +1,51 @@
+{
+  "common": {
+    "gallery": "Galerija",
+    "download": "Preuzmi"
+  },
+  "detail": {
+    "amenities": "Sadržaji"
+  },
+  "accommodation": {
+    "label": "Smještaj",
+    "byType": "Po tipu",
+    "all": "Sav",
+    "in": "u",
+    "allAccommodation": "Sav smještaj",
+    "stars": "Zvjezdice",
+    "noResults": "Nema smještaja koji odgovara ovim filterima.",
+    "hotels": "Hoteli",
+    "apartments": "Apartmani",
+    "villas": "Vile",
+    "classicCamping": "Klasično kampiranje",
+    "mobileHomes": "Mobilne kućice",
+    "glamping": "Glamping",
+    "naturist": "Naturistički"
+  },
+  "login": {
+    "title": "Plava Laguna Partners",
+    "description": "Unesite lozinku za pristup resursima partnera",
+    "password": "Lozinka",
+    "passwordPlaceholder": "Unesite lozinku",
+    "signIn": "Prijavi se",
+    "signingIn": "Prijavljivanje...",
+    "invalidPassword": "Nevažeća lozinka",
+    "error": "Došlo je do greške. Molimo pokušajte ponovno.",
+    "footer": "Ovaj portal je samo za ovlaštene partnere"
+  },
+  "factSheets": {
+    "partnersBadge": "Partneri",
+    "title": "Informativni listovi",
+    "forPartners": "Za ugovorne partnere",
+    "updated": "Ažurirano",
+    "download": "Preuzmi"
+  },
+  "footer": {
+    "importantNote": "VAŽNA NAPOMENA:",
+    "copyright": "Cijeli sadržaj ovih stranica zaštićen je autorskim pravima prema važećim propisima.",
+    "termsPrefix": "Molimo pročitajte naše",
+    "termsOfUse": "uvjete korištenja",
+    "termsSuffix": ".",
+    "forbiddenUse": "Korištenje materijala izvan okvira promocije objekata Plava Laguna d.d. strogo je zabranjeno bez pismene dozvole Plava Laguna d.d.!"
+  }
+}

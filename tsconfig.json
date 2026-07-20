@@ -14,7 +14,11 @@
     "jsx": "react-jsx",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@components/*": ["./src/components/*"],
+      "@adapters/*": ["./src/adapters/*"],
+      "@third-party/services/*": ["./src/third-party/services/*"]
     }
   },
   "include": [

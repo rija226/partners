@@ -1,0 +1,51 @@
+{
+  "common": {
+    "gallery": "Gallery",
+    "download": "Download"
+  },
+  "detail": {
+    "amenities": "Amenities"
+  },
+  "accommodation": {
+    "label": "Accommodation",
+    "byType": "By type",
+    "all": "All",
+    "in": "in",
+    "allAccommodation": "All accommodation",
+    "stars": "Stars",
+    "noResults": "No accommodation matches these filters.",
+    "hotels": "Hotels",
+    "apartments": "Apartments",
+    "villas": "Villas",
+    "classicCamping": "Classic Camping",
+    "mobileHomes": "Mobile Homes",
+    "glamping": "Glamping",
+    "naturist": "Naturist"
+  },
+  "login": {
+    "title": "Plava Laguna Partners",
+    "description": "Enter your password to access partner resources",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "invalidPassword": "Invalid password",
+    "error": "An error occurred. Please try again.",
+    "footer": "This portal is for authorized partners only"
+  },
+  "factSheets": {
+    "partnersBadge": "Partners",
+    "title": "Fact Sheets",
+    "forPartners": "For contractual partners",
+    "updated": "Updated",
+    "download": "Download"
+  },
+  "footer": {
+    "importantNote": "IMPORTANT NOTE:",
+    "copyright": "The complete content of this pages is copyrighted according to enforced regulations.",
+    "termsPrefix": "Please read our",
+    "termsOfUse": "terms of use",
+    "termsSuffix": ".",
+    "forbiddenUse": "The use of the material outside the scope of promotion of the Plava Laguna d.d. facilities is strictly forbidden without a written permission of Plava Laguna d.d.!"
+  }
+}
