@@ -414,3 +414,34 @@ both linked to the *same* `seoMetaData` entry. Returns `{ page, accommodation }`
 matching accommodationObject (e.g. the homepage), in which case `CmsPage` just skips rendering
 `AccommodationHero`. This avoids duplicating name/location/starRating/photo into yet another CMS
 block — don't add a redundant "hero" content type, the data already exists on `accommodationObject`.
+
+## Deployment (Netlify)
+
+Deployed via Netlify's Git integration (`@netlify/plugin-nextjs`, auto-detected — no `netlify.toml`
+needed) to the repo at `github.com/rija226/partners`, reusing the site `partners-web.netlify.app`
+(re-linked from the old reference project to this repo, same URL). Real bugs hit getting the first
+deploy live:
+
+- **Netlify secrets scanning false-positive on `PARTNER_PASSWORD`.** The scanner flagged the bcrypt
+  hash's value appearing inside `@netlify/plugin-nextjs`'s own vendored Deno/Node type declaration
+  files (`buffer.d.ts` under `.netlify/edge-functions/.../deno.land/...` and
+  `.netlify/plugins/node_modules/...`) — these are the plugin's own bundled runtime files, not
+  anything in this repo's code. Fixed by adding a `SECRETS_SCAN_OMIT_KEYS=PARTNER_PASSWORD`
+  environment variable (Netlify env vars, not `.env.local`) rather than disabling the scanner
+  entirely.
+- **`PARTNER_PASSWORD` in Netlify must NOT have the `\$` escaping used in `.env.local`.** That
+  backslash-escaping is only needed locally because `@next/env`'s dotenv-expand mangles a bare `$`
+  in `.env.local` — Netlify env vars are stored literally with no shell-style expansion, so pasting
+  the escaped `\$2b\$10\$...` version there breaks `bcrypt.compare` (not a valid hash anymore) and
+  every login attempt fails with "Invalid password" regardless of what's typed. Always paste the
+  clean `$2b$10$...` value (no backslashes) into Netlify's UI.
+- **500 on every real page (e.g. `/accommodation/hotel-parentium`) despite a clean local build.**
+  Netlify Function logs showed `Error: next-i18next was unable to find a user config at
+  /var/task/next-i18next.config.js`. `serverSideTranslations` loads that config from disk at
+  runtime (not a static import), so Next's serverless file tracer doesn't detect the dependency and
+  drops it from the deployed function's bundle — works fine locally (`next dev`/`next start`, whole
+  repo present) but breaks on Netlify/Vercel where only each function's traced files get deployed.
+  Fixed in `next.config.ts` with `outputFileTracingIncludes: { "/**": ["./next-i18next.config.js"] }`
+  — verified by checking `.next/server/pages/[...slug].js.nft.json` actually lists
+  `../../../next-i18next.config.js` after the fix. If another runtime-loaded (not statically
+  imported) file ever gets added, it needs adding to this same trace-include list.
