@@ -3,11 +3,14 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "styled-components";
 import { appWithTranslation } from "next-i18next/pages";
 import { theme } from "@/src/styles/theme";
+import { circe } from "@/src/styles/fonts";
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Component {...pageProps} />
+      <div className={circe.className} style={{ display: "contents" }}>
+        <Component {...pageProps} />
+      </div>
     </ThemeProvider>
   );
 }

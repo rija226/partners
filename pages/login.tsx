@@ -53,7 +53,7 @@ const Form = styled.form`
 
 const Label = styled.label`
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 400;
   color: ${({ theme }) => theme.colors.primary};
 `;
 
@@ -80,9 +80,9 @@ const ErrorBox = styled.div`
 
 const SubmitButton = styled.button`
   width: 100%;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.buttonBg};
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 0;
@@ -139,10 +139,10 @@ export default function LoginPage() {
     <Wrapper>
       <Card>
         <Image
-          src="/plava-laguna-partners-logo.png"
+          src="/cropped-PL-Partners-LOGO-manji.png"
           alt="Plava Laguna Partners"
-          width={200}
-          height={100}
+          width={150}
+          height={150}
           priority
           style={{ height: "auto", width: "auto", maxWidth: "100%" }}
         />

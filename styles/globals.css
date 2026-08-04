@@ -11,6 +11,9 @@ body {
 body {
   color: #171717;
   background: #ffffff;
+  /* Circe itself is applied via next/font's `circe.className` on <body> (pages/_document.tsx)
+     — its generated class has higher specificity than this rule, so this is just the fallback
+     stack for the (very unlikely) case that class is ever missing. */
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

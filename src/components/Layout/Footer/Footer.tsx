@@ -10,13 +10,12 @@ export default function Footer() {
       <S.Inner>
         <S.Brand>
           <Image
-            src="/plava-laguna-partners-logo.png"
+            src="/cropped-PL-Partners-LOGO-manji.png"
             alt="Plava Laguna Partners"
-            width={120}
-            height={40}
-            style={{ height: "2rem", width: "auto", objectFit: "contain", opacity: 0.8 }}
+            width={90}
+            height={90}
+            style={{ height: "4.5rem", width: "auto", objectFit: "contain", opacity: 0.8 }}
           />
-          <S.BrandLabel>Partner Portal</S.BrandLabel>
         </S.Brand>
         <S.Columns>
           <S.Links>

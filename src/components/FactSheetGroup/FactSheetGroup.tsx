@@ -3,6 +3,15 @@ import { useTranslation } from "next-i18next/pages";
 import type { FactSheetGroup as FactSheetGroupType, FactSheetFile } from "@/src/types/factSheet.types";
 import * as S from "./FactSheetGroup.style";
 
+// Both files are 1418x709 — PLA_HDNSHAPE_LAN_RGB_trimmed.png is a cropped copy of the original
+// (which shipped with a lot of extra transparent canvas around the actual logo); ISTRA's file
+// was already tightly cropped to this same size. Keeping both at identical dimensions is what
+// lets them share one LogoBox size without one appearing smaller than the other.
+const LOGO_SRC: Record<string, string> = {
+  "Plava Laguna": "/PLA_HDNSHAPE_LAN_RGB_trimmed.png",
+  "Istra Camping": "/ISTRA_HDNSHAPE_LAN_RGB.png",
+};
+
 function formatDate(iso?: string): string {
   if (!iso) return "";
   const date = new Date(iso);
@@ -53,8 +62,9 @@ function DownloadCard({ language, file, title, description, updatedLabel }: {
 
 export default function FactSheetGroup(props: FactSheetGroupType) {
   const { t } = useTranslation("common");
-  const { title, subtitle, description, image, updated, fileDescription, files } = props;
+  const { title, subtitle, description, image, updated, fileDescription, files, type } = props;
   const updatedLabel = formatDate(updated);
+  const logoSrc = type ? LOGO_SRC[type] : undefined;
 
   return (
     <S.Wrapper>
@@ -72,10 +82,14 @@ export default function FactSheetGroup(props: FactSheetGroupType) {
           </S.BadgeRow>
           <S.TitleRow>
             <S.Title>{title}</S.Title>
-            {updatedLabel && <S.UpdatedBadge>{t("factSheets.updated")} {updatedLabel}</S.UpdatedBadge>}
           </S.TitleRow>
           {subtitle && <S.Subtitle>{subtitle}</S.Subtitle>}
         </S.HeroContent>
+        {logoSrc && (
+          <S.LogoBox>
+            <Image src={logoSrc} alt="" fill style={{ objectFit: "contain" }} />
+          </S.LogoBox>
+        )}
       </S.Hero>
       <S.DownloadsSection>
         <S.DownloadsHeader>

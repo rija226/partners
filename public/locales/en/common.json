@@ -3,6 +3,11 @@
     "gallery": "Gallery",
     "download": "Download"
   },
+  "search": {
+    "label": "Search",
+    "placeholder": "Search accommodation",
+    "resultsFor": "Search results for \"{{query}}\""
+  },
   "detail": {
     "amenities": "Amenities"
   },
@@ -13,14 +18,17 @@
     "in": "in",
     "allAccommodation": "All accommodation",
     "stars": "Stars",
+    "city": "City",
     "noResults": "No accommodation matches these filters.",
+    "otherLocations": "Other",
     "hotels": "Hotels",
     "apartments": "Apartments",
     "villas": "Villas",
-    "classicCamping": "Classic Camping",
+    "campsites": "Campsites",
     "mobileHomes": "Mobile Homes",
     "glamping": "Glamping",
-    "naturist": "Naturist"
+    "naturist": "Naturist",
+    "mice": "MICE"
   },
   "login": {
     "title": "Plava Laguna Partners",

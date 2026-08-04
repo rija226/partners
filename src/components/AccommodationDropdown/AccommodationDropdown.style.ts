@@ -9,6 +9,7 @@ export const Trigger = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
+  font-size: 1.15rem;
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
   cursor: pointer;
@@ -18,140 +19,121 @@ export const Trigger = styled.a`
   }
 `;
 
-export const MegaMenu = styled.div`
+export const OuterPanel = styled.div`
   position: absolute;
   left: 0;
   margin-top: 0.75rem;
-  display: flex;
-  width: max-content;
-  max-width: min(90vw, 62rem);
-  max-height: 32rem;
+  width: 17rem;
   border: 1px solid #e2e8f0;
   background: white;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   z-index: 50;
+  padding: 0.5rem 0;
 `;
 
-export const LeftPanel = styled.div`
-  width: 14rem;
-  flex-shrink: 0;
-  background: #f8fafc;
-  border-right: 1px solid #e2e8f0;
-  padding: 1.5rem 0;
-  overflow-y: auto;
+// Each level (destination -> category -> items) is `position: relative` and its flyout child
+// is `position: absolute; left: 100%` — the flyout is nested inside the same DOM element as
+// its trigger, so moving the mouse from trigger to flyout never fires a `mouseleave` on the
+// parent, no per-level hover-intent timer needed (only the outermost Wrapper needs one, to
+// survive the trigger-to-panel gap).
+export const DestinationItem = styled.div`
+  position: relative;
+
+  &:hover > div:first-child {
+    background: #f8fafc;
+  }
 `;
 
-export const LeftHeading = styled.div`
-  padding: 0 1.5rem 0.75rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #94a3b8;
-`;
-
-export const CategoryButton = styled.button<{ $active: boolean }>`
+export const DestinationLabel = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
   padding: 0.75rem 1.5rem;
-  border: none;
-  background: ${({ $active, theme }) => ($active ? theme.colors.primary : "transparent")};
-  color: ${({ $active, theme }) => ($active ? "white" : theme.colors.primary)};
-  font-size: 0.875rem;
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
-  text-align: left;
-  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: default;
+`;
+
+export const CategoryFlyout = styled.div`
+  position: absolute;
+  left: 100%;
+  top: -0.5rem;
+  width: 16rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+`;
+
+export const CategoryItem = styled.div`
+  position: relative;
+
+  &:hover > div:first-child {
+    background: #f8fafc;
+  }
+`;
+
+export const CategoryLabel = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1.25rem;
+  font-size: 1.05rem;
+  color: ${({ theme }) => theme.colors.primary};
+  cursor: default;
+`;
+
+export const ItemsFlyout = styled.ul`
+  position: absolute;
+  left: 100%;
+  top: -0.5rem;
+  width: 18rem;
+  max-height: 22rem;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  border: 1px solid #e2e8f0;
+  background: white;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+`;
+
+export const ItemLink = styled(Link)`
+  display: block;
+  padding: 0.6rem 1.25rem;
+  font-size: 1rem;
+  color: #475569;
+  text-decoration: none;
 
   &:hover {
-    background: ${({ $active, theme }) => ($active ? theme.colors.primary : "#e2e8f0")};
+    background: #f8fafc;
+    color: ${({ theme }) => theme.colors.accent};
+  }
+`;
+
+export const ViewAllLink = styled(Link)`
+  display: block;
+  margin-top: 0.25rem;
+  padding: 0.65rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: none;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
 export const AllAccommodationLink = styled(Link)`
   display: block;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-top: 1px solid #e2e8f0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.primary};
-  text-decoration: none;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-  }
-`;
-
-export const RightPanel = styled.div`
-  flex: 1;
-  min-width: 0;
-  padding: 1.75rem 2rem;
-  overflow-y: auto;
-`;
-
-export const RightHeading = styled(Link)`
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
-  text-decoration: none;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-  }
-`;
-
-export const LocationBlock = styled.div`
-  & + & {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #f1f5f9;
-  }
-`;
-
-export const StarColumns = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, minmax(11rem, 1fr));
-  gap: 2rem;
-`;
-
-export const StarColumn = styled.div``;
-
-export const StarHeading = styled.h4`
-  margin: 0 0 0.85rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
-`;
-
-export const ItemList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-`;
-
-export const ItemLink = styled(Link)`
-  font-size: 0.85rem;
-  color: #475569;
-  text-decoration: none;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-    text-decoration: underline;
-  }
-`;
-
-export const ViewAllLink = styled(Link)`
-  display: inline-block;
-  margin-top: 0.85rem;
-  font-size: 0.85rem;
-  font-weight: 600;
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
 
@@ -161,7 +143,7 @@ export const ViewAllLink = styled(Link)`
 `;
 
 export const EmptyState = styled.div`
-  padding: 0.75rem 0;
-  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem;
   color: #94a3b8;
 `;

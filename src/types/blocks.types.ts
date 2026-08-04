@@ -39,6 +39,7 @@ export type AmenitiesBlock = {
 // "galleryBlock" content type.
 export type GalleryBlockType = {
   displayName: string;
+  description?: string;
   images: FlattenedAsset[];
 };
 
@@ -83,4 +84,6 @@ export type TwoColumnBlockType = {
   description?: Document;
   file1?: FlattenedAsset;
   file2?: FlattenedAsset;
+  image?: FlattenedAsset;
+  updated?: string;
 };

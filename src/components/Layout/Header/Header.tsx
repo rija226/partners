@@ -1,6 +1,7 @@
 import Image from "next/image";
 import AccommodationDropdown from "@components/AccommodationDropdown/AccommodationDropdown";
 import LanguageSwitcher from "@components/LanguageSwitcher/LanguageSwitcher";
+import SearchBox from "@components/SearchBox/SearchBox";
 import * as S from "./Header.style";
 
 export default function Header() {
@@ -12,15 +13,18 @@ export default function Header() {
         </nav>
         <S.LogoLink href="/">
           <Image
-            src="/plava-laguna-partners-logo.png"
+            src="/cropped-PL-Partners-LOGO-manji.png"
             alt="Plava Laguna Partners"
-            width={150}
-            height={80}
+            width={200}
+            height={200}
             style={{ height: "100%", width: "auto", objectFit: "contain" }}
             priority
           />
         </S.LogoLink>
-        <LanguageSwitcher />
+        <S.RightGroup>
+          <SearchBox />
+          <LanguageSwitcher />
+        </S.RightGroup>
       </S.Bar>
     </S.Wrapper>
   );

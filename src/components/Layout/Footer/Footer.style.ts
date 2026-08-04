@@ -22,12 +22,6 @@ export const Brand = styled.div`
   border-bottom: 1px solid #f1f5f9;
 `;
 
-export const BrandLabel = styled.span`
-  font-size: 0.75rem;
-  color: #94a3b8;
-  letter-spacing: 0.05em;
-`;
-
 export const Columns = styled.div`
   display: flex;
   flex-direction: column;
@@ -69,7 +63,7 @@ export const Notice = styled.div`
 `;
 
 export const NoticeTitle = styled.p`
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 export const TermsLink = styled(Link)`

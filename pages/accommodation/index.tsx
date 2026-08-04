@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import { useTranslation } from "next-i18next/pages";
@@ -13,14 +14,12 @@ const CATEGORIES: { value: AccommodationCategory; labelKey: string }[] = [
   { value: "Hotel", labelKey: "hotels" },
   { value: "Apartment", labelKey: "apartments" },
   { value: "Villa", labelKey: "villas" },
-  { value: "Classic Camping", labelKey: "classicCamping" },
-  { value: "Mobile Home", labelKey: "mobileHomes" },
-  { value: "Glamping", labelKey: "glamping" },
-  { value: "Naturist", labelKey: "naturist" },
+  { value: "Campsites", labelKey: "campsites" },
 ];
 
-// Matches accommodationObject.starRating's own Contentful validation (range 1-5).
-const STAR_OPTIONS = [5, 4, 3, 2, 1];
+const STAR_OPTIONS = [4, 3, 2];
+
+const LOCATIONS: NonNullable<Accommodation["location"]>[] = ["Poreč", "Umag"];
 
 // Contentful URLs have a trailing slash; Next's routing redirects those to the canonical
 // no-slash form — strip it so links go straight there (same fix as AccommodationDropdown).
@@ -39,6 +38,41 @@ const Title = styled.h1`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
   margin: 0 0 1.5rem;
+`;
+
+const SearchRow = styled.form`
+  display: flex;
+  max-width: 28rem;
+  margin: 0 auto 2rem;
+`;
+
+const SearchInput = styled.input`
+  flex: 1;
+  min-width: 0;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-right: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: ${({ theme }) => theme.colors.primary};
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.accent};
+  }
+`;
+
+const SearchSubmit = styled.button`
+  padding: 0 1.25rem;
+  border: none;
+  background: ${({ theme }) => theme.colors.buttonBg};
+  color: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const FilterRow = styled.div`
@@ -72,15 +106,15 @@ const PillRow = styled.div`
 
 const Pill = styled.button<{ $active: boolean }>`
   padding: 0.4rem 0.9rem;
-  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.primary : "#e2e8f0")};
-  background: ${({ $active, theme }) => ($active ? theme.colors.primary : "white")};
-  color: ${({ $active, theme }) => ($active ? "white" : theme.colors.primary)};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.buttonBg : "#e2e8f0")};
+  background: ${({ $active, theme }) => ($active ? theme.colors.buttonBg : "white")};
+  color: ${({ $active, theme }) => ($active ? "white" : theme.colors.buttonBg)};
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.buttonBg};
   }
 `;
 
@@ -152,65 +186,123 @@ export default function AccommodationListPage({ accommodations }: AccommodationL
   const typeParam = typeof router.query.type === "string" ? router.query.type : null;
   const starsParam = typeof router.query.stars === "string" ? Number(router.query.stars) : null;
   const locationParam = typeof router.query.location === "string" ? router.query.location : null;
+  const miceParam = router.query.mice === "1";
+  const searchParam = typeof router.query.search === "string" ? router.query.search : null;
+  const [searchValue, setSearchValue] = useState(searchParam ?? "");
+  // Adjusting state during render (React's documented pattern for "derive from a prop but
+  // allow local edits") — keeps the input in sync if the query changes via a source other
+  // than this form itself (e.g. the header SearchBox, navigating to this same already-mounted
+  // page with a new query), without the cascading-render effect that `useEffect` would cause.
+  const [syncedSearchParam, setSyncedSearchParam] = useState(searchParam);
+  if (searchParam !== syncedSearchParam) {
+    setSyncedSearchParam(searchParam);
+    setSearchValue(searchParam ?? "");
+  }
 
-  const setFilter = (key: "type" | "stars", value: string | null) => {
+  const setFilter = (key: "type" | "stars" | "location", value: string | null) => {
     const query = { ...router.query };
     if (value) query[key] = value;
     else delete query[key];
     router.push({ pathname: "/accommodation", query }, undefined, { shallow: true });
   };
 
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const query = searchValue.trim();
+    if (!query) return;
+    router.push({ pathname: "/accommodation", query: { search: query } });
+  };
+
   const filtered = accommodations.filter((item) => {
     if (typeParam && item.type !== typeParam) return false;
     if (starsParam && item.starRating !== starsParam) return false;
     if (locationParam && item.location !== locationParam) return false;
+    if (miceParam && !item.mice) return false;
+    if (searchParam) {
+      const needle = searchParam.toLowerCase();
+      const haystack = `${item.name} ${item.location ?? ""}`.toLowerCase();
+      if (!haystack.includes(needle)) return false;
+    }
     return true;
   });
 
   return (
     <Layout>
       <Wrapper>
-        <Title>{t("accommodation.allAccommodation")}</Title>
+        <Title>{searchParam ? t("search.resultsFor", { query: searchParam }) : t("accommodation.allAccommodation")}</Title>
 
-        <FilterRow>
-          <FilterGroup>
-            <FilterLabel>{t("accommodation.byType")}</FilterLabel>
-            <PillRow>
-              <Pill type="button" $active={!typeParam} onClick={() => setFilter("type", null)}>
-                {t("accommodation.all")}
-              </Pill>
-              {CATEGORIES.map((category) => (
-                <Pill
-                  key={category.value}
-                  type="button"
-                  $active={typeParam === category.value}
-                  onClick={() => setFilter("type", category.value)}
-                >
-                  {t(`accommodation.${category.labelKey}`)}
-                </Pill>
-              ))}
-            </PillRow>
-          </FilterGroup>
+        {searchParam && (
+          <SearchRow onSubmit={handleSearchSubmit}>
+            <SearchInput
+              type="search"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              placeholder={t("search.placeholder")}
+            />
+            <SearchSubmit type="submit">{t("search.label")}</SearchSubmit>
+          </SearchRow>
+        )}
 
-          <FilterGroup>
-            <FilterLabel>{t("accommodation.stars")}</FilterLabel>
-            <PillRow>
-              <Pill type="button" $active={!starsParam} onClick={() => setFilter("stars", null)}>
-                {t("accommodation.all")}
-              </Pill>
-              {STAR_OPTIONS.map((stars) => (
-                <Pill
-                  key={stars}
-                  type="button"
-                  $active={starsParam === stars}
-                  onClick={() => setFilter("stars", String(stars))}
-                >
-                  {"★".repeat(stars)}
+        {!searchParam && (
+          <FilterRow>
+            <FilterGroup>
+              <FilterLabel>{t("accommodation.byType")}</FilterLabel>
+              <PillRow>
+                <Pill type="button" $active={!typeParam} onClick={() => setFilter("type", null)}>
+                  {t("accommodation.all")}
                 </Pill>
-              ))}
-            </PillRow>
-          </FilterGroup>
-        </FilterRow>
+                {CATEGORIES.map((category) => (
+                  <Pill
+                    key={category.value}
+                    type="button"
+                    $active={typeParam === category.value}
+                    onClick={() => setFilter("type", category.value)}
+                  >
+                    {t(`accommodation.${category.labelKey}`)}
+                  </Pill>
+                ))}
+              </PillRow>
+            </FilterGroup>
+
+            <FilterGroup>
+              <FilterLabel>{t("accommodation.stars")}</FilterLabel>
+              <PillRow>
+                <Pill type="button" $active={!starsParam} onClick={() => setFilter("stars", null)}>
+                  {t("accommodation.all")}
+                </Pill>
+                {STAR_OPTIONS.map((stars) => (
+                  <Pill
+                    key={stars}
+                    type="button"
+                    $active={starsParam === stars}
+                    onClick={() => setFilter("stars", String(stars))}
+                  >
+                    {"★".repeat(stars)}
+                  </Pill>
+                ))}
+              </PillRow>
+            </FilterGroup>
+
+            <FilterGroup>
+              <FilterLabel>{t("accommodation.city")}</FilterLabel>
+              <PillRow>
+                <Pill type="button" $active={!locationParam} onClick={() => setFilter("location", null)}>
+                  {t("accommodation.all")}
+                </Pill>
+                {LOCATIONS.map((location) => (
+                  <Pill
+                    key={location}
+                    type="button"
+                    $active={locationParam === location}
+                    onClick={() => setFilter("location", location)}
+                  >
+                    {location}
+                  </Pill>
+                ))}
+              </PillRow>
+            </FilterGroup>
+          </FilterRow>
+        )}
 
         {filtered.length === 0 ? (
           <EmptyState>{t("accommodation.noResults")}</EmptyState>

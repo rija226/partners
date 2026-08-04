@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export const Wrapper = styled.div`
   position: relative;
-  font-size: 0.875rem;
 `;
 
 export const Trigger = styled.button`
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  font-size: 1.15rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -37,7 +37,7 @@ export const MenuItem = styled(Link)<{ $active: boolean }>`
   display: block;
   padding: 0.65rem 1rem;
   color: ${({ theme }) => theme.colors.primary};
-  font-weight: ${({ $active }) => ($active ? 600 : 400)};
+  font-weight: ${({ $active }) => ($active ? 700 : 400)};
   background: ${({ $active }) => ($active ? "#f8fafc" : "transparent")};
   text-decoration: none;
 

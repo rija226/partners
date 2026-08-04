@@ -24,11 +24,17 @@ export const Bar = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5rem;
+  height: 6.5rem;
 `;
 
 export const LogoLink = styled(Link)`
   display: flex;
   align-items: center;
   height: 100%;
+`;
+
+export const RightGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;

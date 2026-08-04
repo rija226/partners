@@ -3,6 +3,11 @@
     "gallery": "Galerija",
     "download": "Preuzmi"
   },
+  "search": {
+    "label": "Pretraga",
+    "placeholder": "Pretraži smještaj",
+    "resultsFor": "Rezultati pretrage za \"{{query}}\""
+  },
   "detail": {
     "amenities": "Sadržaji"
   },
@@ -13,14 +18,17 @@
     "in": "u",
     "allAccommodation": "Sav smještaj",
     "stars": "Zvjezdice",
+    "city": "Grad",
     "noResults": "Nema smještaja koji odgovara ovim filterima.",
+    "otherLocations": "Ostalo",
     "hotels": "Hoteli",
     "apartments": "Apartmani",
     "villas": "Vile",
-    "classicCamping": "Klasično kampiranje",
+    "campsites": "Campsites",
     "mobileHomes": "Mobilne kućice",
     "glamping": "Glamping",
-    "naturist": "Naturistički"
+    "naturist": "Naturistički",
+    "mice": "MICE"
   },
   "login": {
     "title": "Plava Laguna Partners",

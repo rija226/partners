@@ -11,7 +11,7 @@ export const Button = styled.button`
   align-items: center;
   justify-content: center;
   border: none;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.buttonBg};
   color: white;
   font-size: 1.25rem;
   cursor: pointer;

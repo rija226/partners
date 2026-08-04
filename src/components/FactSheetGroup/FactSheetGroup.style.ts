@@ -24,7 +24,7 @@ export const Hero = styled.div<{ $hasImage: boolean }>`
 export const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(15, 61, 62, 0.85), rgba(15, 61, 62, 0.15));
+  background: linear-gradient(to top, rgba(15, 61, 62, 0.55), rgba(15, 61, 62, 0.08));
   z-index: 1;
 `;
 
@@ -33,6 +33,19 @@ export const HeroContent = styled.div`
   z-index: 2;
   padding: 1.5rem 2rem;
   color: white;
+`;
+
+// Both logo files are the same 2:1 (1418x709) aspect ratio — a fixed size here (not
+// object-fit:contain within an arbitrary box) is what guarantees they render at identical
+// dimensions regardless of which one is showing.
+export const LogoBox = styled.div`
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11rem;
+  height: 5.5rem;
 `;
 
 export const BadgeRow = styled.div`
@@ -46,7 +59,7 @@ export const Badge = styled.span`
   padding: 0.25rem 0.75rem;
   border-radius: 0;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   background: rgba(255, 255, 255, 0.15);
@@ -64,14 +77,6 @@ export const Title = styled.h2`
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0;
-`;
-
-export const UpdatedBadge = styled.span`
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: 0;
-  font-size: 0.75rem;
-  background: rgba(255, 255, 255, 0.2);
 `;
 
 export const Subtitle = styled.p`
@@ -169,9 +174,9 @@ export const DownloadButton = styled.a`
   text-align: center;
   padding: 0.75rem 1rem;
   border-radius: 0;
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.buttonBg};
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 
   &:hover {

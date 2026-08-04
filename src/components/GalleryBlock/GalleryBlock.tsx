@@ -24,7 +24,7 @@ async function downloadFile(url: string, fileName: string) {
   URL.revokeObjectURL(blobUrl);
 }
 
-export default function GalleryBlock({ images }: GalleryBlockType) {
+export default function GalleryBlock({ description, images }: GalleryBlockType) {
   const { t } = useTranslation("common");
   const [index, setIndex] = useState(-1);
 
@@ -39,6 +39,7 @@ export default function GalleryBlock({ images }: GalleryBlockType) {
   return (
     <S.Wrapper>
       <S.Heading>{t("common.gallery")}</S.Heading>
+      {description && <S.Description>{description}</S.Description>}
       <S.Grid>
         {images.map((image, i) => {
           const caption = image.title || image.description || image.fileName || "";

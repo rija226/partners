@@ -13,6 +13,12 @@ export const Heading = styled.h2`
   margin: 0;
 `;
 
+export const Description = styled.p`
+  font-size: 0.95rem;
+  color: #64748b;
+  margin: -0.5rem 0 0;
+`;
+
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -64,14 +70,14 @@ export const DownloadLink = styled.a`
      (image titles) are different lengths. */
   margin: auto 0.75rem 0.75rem;
   padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.primary};
+  border: 1px solid ${({ theme }) => theme.colors.buttonBg};
+  color: ${({ theme }) => theme.colors.buttonBg};
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.buttonBg};
     color: white;
   }
 `;
