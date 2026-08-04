@@ -9,7 +9,7 @@ export const Trigger = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
   cursor: pointer;
@@ -49,7 +49,7 @@ export const DestinationLabel = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.5rem;
-  font-size: 1.15rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
   cursor: default;
@@ -79,7 +79,7 @@ export const CategoryLabel = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0.65rem 1.25rem;
-  font-size: 1.05rem;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.primary};
   cursor: default;
 `;
@@ -102,7 +102,7 @@ export const ItemsFlyout = styled.ul`
 export const ItemLink = styled(Link)`
   display: block;
   padding: 0.6rem 1.25rem;
-  font-size: 1rem;
+  font-size: 0.875rem;
   color: #475569;
   text-decoration: none;
 
@@ -117,7 +117,7 @@ export const ViewAllLink = styled(Link)`
   margin-top: 0.25rem;
   padding: 0.65rem 1.25rem;
   border-top: 1px solid #e2e8f0;
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
@@ -132,7 +132,7 @@ export const AllAccommodationLink = styled(Link)`
   margin-top: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-top: 1px solid #e2e8f0;
-  font-size: 1.05rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
@@ -144,6 +144,6 @@ export const AllAccommodationLink = styled(Link)`
 
 export const EmptyState = styled.div`
   padding: 0.75rem 1.5rem;
-  font-size: 1.05rem;
+  font-size: 0.875rem;
   color: #94a3b8;
 `;

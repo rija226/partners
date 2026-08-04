@@ -7,14 +7,14 @@ export const Wrapper = styled.div`
 `;
 
 export const Heading = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: #0f172a;
   margin: 0;
 `;
 
 export const Description = styled.p`
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #64748b;
   margin: -0.5rem 0 0;
 `;
@@ -55,7 +55,7 @@ export const ImageBox = styled.div`
 
 export const Caption = styled.span`
   padding: 0.5rem 0.75rem 0.75rem;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #64748b;
   line-height: 1.4;
 `;
@@ -72,7 +72,7 @@ export const DownloadLink = styled.a`
   padding: 0.5rem;
   border: 1px solid ${({ theme }) => theme.colors.buttonBg};
   color: ${({ theme }) => theme.colors.buttonBg};
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-decoration: none;
 

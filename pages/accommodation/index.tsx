@@ -53,7 +53,7 @@ const SearchInput = styled.input`
   border: 1px solid #e2e8f0;
   border-right: none;
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.primary};
 
   &:focus {
@@ -67,7 +67,7 @@ const SearchSubmit = styled.button`
   background: ${({ theme }) => theme.colors.buttonBg};
   color: white;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   cursor: pointer;
 
   &:hover {
@@ -109,7 +109,7 @@ const Pill = styled.button<{ $active: boolean }>`
   border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.buttonBg : "#e2e8f0")};
   background: ${({ $active, theme }) => ($active ? theme.colors.buttonBg : "white")};
   color: ${({ $active, theme }) => ($active ? "white" : theme.colors.buttonBg)};
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
 
@@ -120,7 +120,7 @@ const Pill = styled.button<{ $active: boolean }>`
 
 const EmptyState = styled.p`
   color: #64748b;
-  font-size: 0.95rem;
+  font-size: 1rem;
 `;
 
 const Grid = styled.div`
@@ -171,7 +171,7 @@ const CardName = styled.span`
 const CardMeta = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: #64748b;
 `;
 

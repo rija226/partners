@@ -13,7 +13,7 @@ export const Button = styled.button`
   border: none;
   background: ${({ theme }) => theme.colors.buttonBg};
   color: white;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   cursor: pointer;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
 

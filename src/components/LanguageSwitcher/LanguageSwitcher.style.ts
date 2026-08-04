@@ -9,7 +9,7 @@ export const Trigger = styled.button`
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  font-size: 1.15rem;
+  font-size: 1.125rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -36,6 +36,7 @@ export const Menu = styled.div`
 export const MenuItem = styled(Link)<{ $active: boolean }>`
   display: block;
   padding: 0.65rem 1rem;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.primary};
   font-weight: ${({ $active }) => ($active ? 700 : 400)};
   background: ${({ $active }) => ($active ? "#f8fafc" : "transparent")};

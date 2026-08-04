@@ -48,7 +48,7 @@ export const Body = styled.div<{ $columns: number }>`
 export const Column = styled.div``;
 
 export const ColumnTitle = styled.h3`
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 700;
   text-transform: uppercase;
   color: #0f172a;

@@ -58,7 +58,7 @@ export const Badge = styled.span`
   display: inline-block;
   padding: 0.25rem 0.75rem;
   border-radius: 0;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -136,7 +136,7 @@ export const CardMeta = styled.div`
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.75rem;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: #64748b;
 `;
 
@@ -151,7 +151,7 @@ export const LanguageBadge = styled.span`
   padding: 0.125rem 0.5rem;
   border-radius: 0;
   font-weight: 700;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   background: white;
   border: 1px solid #e2e8f0;
   color: ${({ theme }) => theme.colors.primary};

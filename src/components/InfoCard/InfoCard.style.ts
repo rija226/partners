@@ -20,7 +20,7 @@ export const Box = styled.div`
   color: #334155;
 
   h3 {
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
     color: ${({ theme }) => theme.colors.primary};

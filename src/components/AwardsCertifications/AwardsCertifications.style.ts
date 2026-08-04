@@ -41,7 +41,7 @@ export const ArrowButton = styled.button`
   border: 1px solid #e2e8f0;
   background: white;
   color: ${({ theme }) => theme.colors.primary};
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   cursor: pointer;
 
   &:hover:not(:disabled) {
@@ -93,7 +93,7 @@ export const CardTitle = styled.p`
 `;
 
 export const CardDescription = styled.p`
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: #64748b;
   margin: 0;
 `;

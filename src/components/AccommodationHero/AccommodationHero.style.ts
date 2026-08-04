@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 
 export const Stars = styled.p`
   color: ${({ theme }) => theme.colors.accent};
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   margin: 0 0 0.5rem;
 `;
 

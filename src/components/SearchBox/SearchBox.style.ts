@@ -42,7 +42,7 @@ export const Input = styled.input`
   padding: 0.65rem 0.85rem;
   border: none;
   outline: none;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.colors.primary};
 `;
 

@@ -17,7 +17,7 @@ export const Title = styled.h2`
 `;
 
 export const Paragraph = styled.p`
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: #334155;
   margin: 0 0 1rem;

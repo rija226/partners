@@ -30,7 +30,7 @@ const Card = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
   text-align: center;

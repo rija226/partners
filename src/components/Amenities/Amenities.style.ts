@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Heading = styled.h3`
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -28,5 +28,5 @@ export const Badge = styled.span`
   border: 1px solid #e2e8f0;
   background: #f1f5f9;
   color: #334155;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
 `;
