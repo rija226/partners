@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Heading = styled.h2`
-  font-size: 1.375rem;
+  font-size: 1.75rem;
   font-weight: 700;
   color: #0f172a;
   margin: 0;

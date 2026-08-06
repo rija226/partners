@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Heading = styled.h3`
-  font-size: 0.875rem;
+  font-size: 1.75rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
