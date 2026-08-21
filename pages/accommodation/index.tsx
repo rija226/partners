@@ -70,6 +70,7 @@ const SearchSubmit = styled.button`
   font-size: 0.875rem;
   cursor: pointer;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     opacity: 0.9;
   }
@@ -113,6 +114,7 @@ const Pill = styled.button<{ $active: boolean }>`
   font-weight: 700;
   cursor: pointer;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     border-color: ${({ theme }) => theme.colors.buttonBg};
   }
@@ -125,15 +127,15 @@ const EmptyState = styled.p`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 `;
 
@@ -145,6 +147,7 @@ const Card = styled.a`
   text-decoration: none;
   overflow: hidden;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
   }

@@ -17,6 +17,7 @@ export const Button = styled.button`
   cursor: pointer;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     background: ${({ theme }) => theme.colors.accent};
   }

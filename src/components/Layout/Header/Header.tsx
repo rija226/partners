@@ -9,9 +9,9 @@ export default function Header() {
   return (
     <S.Wrapper>
       <S.Bar>
-        <nav>
+        <S.NavWrapper>
           <AccommodationDropdown />
-        </nav>
+        </S.NavWrapper>
         <S.LogoLink href="/">
           <Image
             src="/cropped-PL-Partners-LOGO-manji.png"

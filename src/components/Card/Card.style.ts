@@ -10,19 +10,27 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -3px rgba(0, 0, 0, 0.08);
   overflow: hidden;
+
+  @media (min-width: 640px) {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const Header = styled.div`
   flex-shrink: 0;
   background: ${({ theme }) => theme.colors.primary};
   color: white;
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1rem;
   font-weight: 700;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+
+  @media (min-width: 640px) {
+    padding: 0.75rem 1.25rem;
+  }
 `;
 
 // A half-width Card is only ever wide enough for 2 real side-by-side columns. With 3
@@ -34,14 +42,16 @@ export const Header = styled.div`
 export const Body = styled.div<{ $columns: number }>`
   flex: 1;
   background: #f8fafc;
-  padding: 1.5rem;
+  padding: 1.15rem;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem 2rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
   align-content: start;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(${({ $columns }) => ($columns >= 3 ? 1 : $columns)}, 1fr);
+    padding: 1.5rem;
+    gap: 1.5rem 2rem;
+    grid-template-columns: repeat(${({ $columns }) => ($columns >= 3 ? 1 : $columns)}, minmax(0, 1fr));
   }
 `;
 

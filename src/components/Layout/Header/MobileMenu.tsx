@@ -33,45 +33,48 @@ export default function MobileMenu() {
       {open && (
         <S.Overlay role="dialog" aria-modal="true">
           <S.OverlayHeader>
+            <S.MenuTitle>{t("mobileMenu.title")}</S.MenuTitle>
             <S.CloseButton type="button" onClick={() => setOpen(false)} aria-label="×">
               ×
             </S.CloseButton>
           </S.OverlayHeader>
 
-          <S.Section>
-            <S.SectionTitle>{t("accommodation.label")}</S.SectionTitle>
-            <AccommodationAccordion />
-          </S.Section>
+          <S.ScrollArea>
+            <S.Section>
+              <S.SectionTitle>{t("accommodation.label")}</S.SectionTitle>
+              <AccommodationAccordion />
+            </S.Section>
 
-          <S.Section>
-            <S.SectionTitle>{t("search.label")}</S.SectionTitle>
-            <S.SearchForm onSubmit={handleSearchSubmit}>
-              <S.SearchInput
-                type="search"
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                placeholder={t("search.placeholder")}
-              />
-              <S.SearchSubmit type="submit">{t("search.label")}</S.SearchSubmit>
-            </S.SearchForm>
-          </S.Section>
+            <S.Section>
+              <S.SectionTitle>{t("search.label")}</S.SectionTitle>
+              <S.SearchForm onSubmit={handleSearchSubmit}>
+                <S.SearchInput
+                  type="search"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  placeholder={t("search.placeholder")}
+                />
+                <S.SearchSubmit type="submit">{t("search.label")}</S.SearchSubmit>
+              </S.SearchForm>
+            </S.Section>
 
-          <S.Section>
-            <S.SectionTitle>{t("language.label")}</S.SectionTitle>
-            <S.LanguageList>
-              {locales.map((loc) => (
-                <S.LanguageLink
-                  key={loc}
-                  href={{ pathname: router.pathname, query: router.query }}
-                  locale={loc}
-                  $active={loc === currentLocale}
-                  onClick={() => setOpen(false)}
-                >
-                  {LOCALE_LABELS[loc] ?? loc}
-                </S.LanguageLink>
-              ))}
-            </S.LanguageList>
-          </S.Section>
+            <S.Section>
+              <S.SectionTitle>{t("language.label")}</S.SectionTitle>
+              <S.LanguageToggle>
+                {locales.map((loc) => (
+                  <S.LanguageOption
+                    key={loc}
+                    href={{ pathname: router.pathname, query: router.query }}
+                    locale={loc}
+                    $active={loc === currentLocale}
+                    onClick={() => setOpen(false)}
+                  >
+                    {LOCALE_LABELS[loc] ?? loc}
+                  </S.LanguageOption>
+                ))}
+              </S.LanguageToggle>
+            </S.Section>
+          </S.ScrollArea>
         </S.Overlay>
       )}
     </>

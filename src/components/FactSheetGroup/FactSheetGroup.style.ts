@@ -41,17 +41,17 @@ export const HeroContent = styled.div`
 // Hidden below tablet width — at 11rem wide it would overlap HeroContent's title/badges text
 // on a narrow phone screen; it's a secondary brand mark, safe to drop there.
 export const LogoBox = styled.div`
-  display: none;
   position: absolute;
   z-index: 2;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  width: 11rem;
-  height: 5.5rem;
+  width: 5.5rem;
+  height: 2.75rem;
 
   @media (min-width: 640px) {
-    display: block;
+    width: 11rem;
+    height: 5.5rem;
   }
 `;
 
@@ -92,7 +92,11 @@ export const Subtitle = styled.p`
 `;
 
 export const DownloadsSection = styled.div`
-  padding: 1.5rem 2rem 2rem;
+  padding: 1.25rem 1rem 1.5rem;
+
+  @media (min-width: 640px) {
+    padding: 1.5rem 2rem 2rem;
+  }
 `;
 
 export const DownloadsHeader = styled.div`
@@ -123,25 +127,34 @@ export const DownloadsDescription = styled.p`
 
 export const CardsGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.25rem;
 
   @media (min-width: 640px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   }
 `;
 
 export const Card = styled.div`
   border: 1px solid #e2e8f0;
   border-radius: 0;
-  padding: 1.25rem;
+  padding: 1rem;
   background: #f8fafc;
+
+  @media (min-width: 640px) {
+    padding: 1.25rem;
+  }
 `;
 
+// flex-wrap so a long "Updated DD.MM.YYYY" on the right doesn't force this whole row (and the
+// card, and the section) wider than the viewport on a narrow phone — it just drops to its own
+// line instead when it doesn't fit next to the left-side badge/filesize text.
 export const CardMeta = styled.div`
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
+  gap: 0.25rem 0.75rem;
   margin-bottom: 0.75rem;
   font-size: 0.75rem;
   color: #64748b;
@@ -186,6 +199,7 @@ export const DownloadButton = styled.a`
   font-weight: 700;
   text-decoration: none;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     opacity: 0.92;
   }

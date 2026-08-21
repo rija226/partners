@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import Link from "next/link";
 
+// Same palette as MobileMenu.style.ts (this accordion only ever renders inside that overlay).
+const NAVY = "#12303d";
+const DIVIDER_ROW = "#f0efec";
+const HOVER_BG = "#f7f6f3";
+const CHEVRON = "#c3bfb8";
+
 export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,23 +17,32 @@ export const DestinationButton = styled.button<{ $active: boolean }>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.85rem 0;
+  height: 58px;
+  padding: 0 22px;
   border: none;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid ${DIVIDER_ROW};
+  border-radius: 0;
   background: none;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  appearance: none;
+  font-size: 19px;
+  font-weight: 600;
+  color: ${NAVY};
   cursor: pointer;
 
+  &:hover {
+    background: ${HOVER_BG};
+  }
+
   span {
+    color: ${CHEVRON};
+    font-size: 20px;
     transform: ${({ $active }) => ($active ? "rotate(90deg)" : "none")};
     transition: transform 0.15s ease;
   }
 `;
 
 export const CategoryList = styled.div`
-  padding: 0.25rem 0 0.5rem 1rem;
+  padding-left: 14px;
 `;
 
 export const CategoryButton = styled.button<{ $active: boolean }>`
@@ -35,15 +50,25 @@ export const CategoryButton = styled.button<{ $active: boolean }>`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 0.65rem 0;
+  min-height: 52px;
+  padding: 0 22px 0 8px;
   border: none;
+  border-bottom: 1px solid ${DIVIDER_ROW};
+  border-radius: 0;
   background: none;
-  font-size: 0.875rem;
+  appearance: none;
+  font-size: 16px;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${NAVY};
   cursor: pointer;
 
+  &:hover {
+    background: ${HOVER_BG};
+  }
+
   span {
+    color: ${CHEVRON};
+    font-size: 18px;
     transform: ${({ $active }) => ($active ? "rotate(90deg)" : "none")};
     transition: transform 0.15s ease;
   }
@@ -52,45 +77,61 @@ export const CategoryButton = styled.button<{ $active: boolean }>`
 export const ItemList = styled.ul`
   list-style: none;
   margin: 0;
-  padding: 0 0 0.5rem 1rem;
+  padding: 0 0 4px 8px;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
 `;
 
 export const ItemLink = styled(Link)`
-  display: block;
-  font-size: 0.875rem;
-  color: #475569;
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 0;
+  font-size: 15px;
+  color: ${NAVY};
   text-decoration: none;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.accent};
+    background: ${HOVER_BG};
   }
 `;
 
 export const ViewAllLink = styled(Link)`
-  display: block;
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: ${NAVY};
   text-decoration: none;
+
+  &:hover {
+    background: ${HOVER_BG};
+  }
 `;
 
 export const AllAccommodationLink = styled(Link)`
-  display: block;
-  margin-top: 0.5rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid #e2e8f0;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: ${({ theme }) => theme.colors.primary};
+  display: flex;
+  align-items: center;
+  height: 58px;
+  padding: 0 22px;
+  border-bottom: 1px solid ${DIVIDER_ROW};
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: ${NAVY};
   text-decoration: none;
+
+  &:hover {
+    background: ${HOVER_BG};
+  }
 `;
 
 export const EmptyState = styled.div`
-  padding: 0.85rem 0;
-  font-size: 0.875rem;
+  padding: 18px 22px;
+  font-size: 15px;
   color: #94a3b8;
 `;

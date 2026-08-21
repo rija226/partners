@@ -1,48 +1,59 @@
 import styled from "styled-components";
 import Link from "next/link";
 
+// Same palette/treatment as AccommodationDropdown.style.ts, for visual consistency between the
+// two nav-bar dropdowns.
+const NAVY = "#12303d";
+const HOVER_BG = "#f5f8f9";
+const BORDER = "#ececec";
+
 export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const Trigger = styled.button`
-  display: flex;
+export const Trigger = styled.button<{ $active: boolean }>`
+  display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
-  font-size: 1.125rem;
-  background: none;
+  gap: 0.3em;
+  padding: 0 0 4px;
   border: none;
+  border-bottom: 2px solid ${({ $active }) => ($active ? NAVY : "transparent")};
+  border-radius: 0;
+  background: none;
+  font-size: 17px;
+  font-weight: 600;
+  color: ${NAVY};
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.primary};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-  }
 `;
 
 export const Menu = styled.div`
   position: absolute;
   right: 0;
+  top: 100%;
   margin-top: 0.75rem;
   width: 9rem;
+  background: #fff;
+  border: 1px solid ${BORDER};
   border-radius: 0;
-  border: 1px solid #e2e8f0;
-  background: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 18px 44px -16px rgba(0, 0, 0, 0.32);
   z-index: 50;
-  padding: 0.5rem 0;
 `;
 
+// Same active/inactive padding-compensation trick as AccommodationDropdown's rows: active
+// reserves 3px via its own border-left, inactive skips the border and pads 3px further right
+// instead, so the text lines up either way.
 export const MenuItem = styled(Link)<{ $active: boolean }>`
   display: block;
-  padding: 0.65rem 1rem;
-  font-size: 0.875rem;
-  color: ${({ theme }) => theme.colors.primary};
-  font-weight: ${({ $active }) => ($active ? 700 : 400)};
-  background: ${({ $active }) => ($active ? "#f8fafc" : "transparent")};
+  padding: ${({ $active }) => ($active ? "12px 20px" : "12px 20px 12px 23px")};
+  border-left: ${({ $active }) => ($active ? `3px solid ${NAVY}` : "none")};
+  border-radius: 0;
+  font-size: 15px;
+  font-weight: ${({ $active }) => ($active ? 600 : 500)};
+  color: ${NAVY};
   text-decoration: none;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
-    background: #f8fafc;
+    background: ${HOVER_BG};
   }
 `;

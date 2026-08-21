@@ -451,37 +451,66 @@ deploy live:
 Breakpoints: **mobile** < 640px, **tablet** 640–1024px, **desktop** ≥ 1024px — matches the
 breakpoints already used throughout (Card/CmsPage/GalleryBlock/InfoCard grid columns).
 
+- **CSS Grid's `1fr` track doesn't shrink below its content's min-content width by default — use
+  `minmax(0, 1fr)` everywhere, always.** This was the real, hard-to-find cause of a real bug:
+  `FactSheetGroup`'s download cards visibly overflowed the viewport on mobile (a button cut off
+  mid-screen), and the fix looked like it should be `flex-wrap` on the card's meta row — but that
+  fix did nothing, because the *outer* `CmsPage.Grid` (`grid-template-columns: 1fr`) was the
+  actual culprit: a bare `1fr` track's minimum size is the max of its items' min-content width per
+  the CSS Grid spec, so any unwrapped-text descendant anywhere inside silently forces the whole
+  track — and the page — wider than the viewport instead of ever letting that inner text wrap in
+  the first place. No amount of fixing the inner component mattered while the outer grid track
+  refused to shrink. Fixed by swapping every bare `1fr`/`repeat(N, 1fr)` in the codebase (13
+  places: `CmsPage`, `Card`, `FactSheetGroup`, `GalleryBlock`, `InfoCard`, the accommodation
+  listing grid) for `minmax(0, 1fr)`/`repeat(N, minmax(0, 1fr))`. If a new CSS Grid ever gets
+  added here, use `minmax(0, 1fr)` from the start — don't rediscover this the hard way again.
 - **Header nav below 1024px is a completely different component, not a CSS-collapsed version of
-  the desktop one.** `AccommodationDropdown` (desktop) is a hover-driven 3-level flyout that
-  opens sideways (`left: 100%`) — there's no hover on touch and no room for a sideways flyout on
-  a narrow screen, so trying to make the same component "responsive" would mean fighting its own
-  interaction model. Instead: `AccommodationDropdown.Wrapper` is `display:none` below 1024px, and
-  a separate `AccommodationAccordion` (tap-to-expand, stacked vertically, indented) renders inside
-  `MobileMenu`'s full-screen overlay instead. Both share the same data/fetch/grouping logic via
-  `useAccommodationGroups.ts` (extracted specifically for this split) — only the presentation
+  the desktop one.** `AccommodationDropdown` (desktop) is a hover-driven 3-level flyout that opens
+  sideways (`left: 100%`) — there's no hover on touch and no room for a sideways flyout on a
+  narrow screen. `AccommodationDropdown.Wrapper` and the `<nav>` wrapping it (`Header.style.ts`'s
+  `NavWrapper`) are both `display:none` below 1024px; a separate `AccommodationAccordion`
+  (tap-to-expand, stacked vertically) renders instead inside `MobileMenu`'s full-screen overlay.
+  Both share data/fetch/grouping logic via `useAccommodationGroups.ts` — only the presentation
   differs. Same split for `LanguageSwitcher`/`SearchBox` (desktop, hidden <1024px via
-  `Header.style.ts`'s `RightGroup`) vs. the language list / search form built inline inside
-  `MobileMenu.tsx` (not the same components reused, since their hover/click-to-toggle-dropdown
-  interaction doesn't fit inside an already-open overlay).
-- **`Header.style.ts`'s `Bar` is a 3-column CSS grid (`1fr auto 1fr`), not `flex` +
-  `justify-content: space-between`.** With flex space-between, `AccommodationDropdown` and
-  `MobileMenu`'s hamburger toggle sharing one DOM slot (`LeftGroup`) — exactly one visible at a
-  time via their own breakpoint CSS — still each reserve flex-item space when "hidden" via
-  `display:none` on their *child*, not the slot itself throwing off centering of the logo in the
-  middle. A grid track doesn't have that problem; the middle column is always exactly the logo's
-  width regardless of what the side columns contain.
+  `RightGroup`) vs. the language list / search form built inline inside `MobileMenu.tsx`.
+- **`Header.style.ts`'s `Bar` is exactly the original `flex` + `justify-content` layout — a CSS
+  grid version was tried and reverted.** Swapping `Bar` to `display:grid` (to give `MobileMenu`'s
+  hamburger a layout "slot") broke the logo on *desktop*: grid's `align-items` (set to `center` to
+  match the old flex behavior) doesn't give a grid item a definite height the way flex's
+  `align-items: center` does, so the logo `<Image>`'s `height: 100%` silently fell back to its
+  intrinsic 200×200 size instead of the bar's 6.5rem, rendering it huge and overlapping the
+  content below the header. Diffed back to the exact pre-regression version rather than
+  re-guessing (`git show <last-good-commit>:path` — worth doing again if this area regresses).
+  `MobileMenu`'s toggle button is `position: absolute` against `Header.Wrapper` (itself
+  `position: fixed`) instead of being a flex child of `Bar` at all, so it can never again perturb
+  that row's item count. `justify-content` itself is responsive on `Bar` — `center` below 1024px
+  (only the logo is visible then, `NavWrapper`/`RightGroup` both fully `display:none`) and
+  `space-between` at 1024px+ (all three back, identical to the original). Getting the *count* of
+  visible flex/grid items to match between breakpoints (not just hiding a child's content) is the
+  actual lesson — `display:none` on an inner child still leaves an empty-but-present item in the
+  outer flex/grid row, which throws off `space-between`/centering math differently at each
+  breakpoint.
 - **`AccommodationHero.Title`** loses its `white-space: nowrap` below 640px (kept ≥640px, per the
   earlier explicit "keep it on one line" request) — a long hotel name would otherwise overflow a
   phone screen. Font-size also steps down (1.375rem mobile → 2rem ≥640px).
 - **`FactSheetGroup.LogoBox`** (the Plava Laguna/Istra Camping brand mark, absolutely positioned
-  at the hero's right edge) is `display:none` below 640px — at 11rem wide it would overlap
-  `HeroContent`'s title/badges text on a phone; it's a secondary brand mark, safe to drop there
-  rather than trying to shrink/reflow it.
+  at the hero's right edge) shrinks to 5.5×2.75rem below 640px instead of being hidden (an earlier
+  version hid it outright below 640px since it overlapped `HeroContent`'s title at full size — the
+  user wanted it kept, just smaller, not dropped).
+- **`FactSheetGroup.CardMeta`** (the "EN · PDF · 2.4 MB ⋯ Updated DD.MM.YYYY" row on each download
+  card) has `flex-wrap: wrap` — necessary but *not sufficient* on its own for the overflow bug
+  above; see the `minmax(0, 1fr)` note, that was the actual fix. Left the wrap in anyway since a
+  long updated-date genuinely can want its own line on a narrow card regardless.
+- **Mobile padding/shadow pass**: `CmsPage.Wrapper`, `Card` (`Header`/`Body`), and `InfoCard.Box`
+  all step up their padding and box-shadow intensity from a lighter mobile value to the existing
+  desktop value at 640px, rather than using the same value at every width — with six-plus stacked
+  `Card` sections on a typical hotel detail page, the desktop-weight padding/shadow on every one
+  reads as heavy/repetitive on a phone-width column.
 - **`AwardsCertifications`'s horizontal scroll-snap slider and the login page's fluid card
   (`width:100%; max-width:28rem`) already worked at any width without changes** — didn't touch
   them, don't "fix" what isn't broken here.
 - Verification for this kind of work is inherently limited to what SSR HTML/build output can
-  prove (markup present, no crash) — actual visual correctness at 375px/768px (does the hamburger
-  overlay actually look right, does the accordion expand correctly) needs a real browser, which
-  isn't available in this environment. Flag that explicitly rather than claiming full visual
-  verification.
+  prove (markup present, no crash) — actual visual correctness at a given width needs a real
+  browser, which isn't available in this environment; rely on the user's screenshots, and when a
+  fix doesn't visibly work after a second report, seriously reconsider whether the diagnosis (not
+  just the fix) was wrong before trying another patch on the same theory.

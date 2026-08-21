@@ -11,7 +11,7 @@ import AwardsCertifications from "@components/AwardsCertifications/AwardsCertifi
 import Banner from "@components/Banner/Banner";
 import IntroCard from "@components/IntroCard/IntroCard";
 import TwoColumnBlock from "@components/TwoColumnBlock/TwoColumnBlock";
-import { GridItem } from "@components/CmsPage/CmsPage.style";
+import RevealItem from "./RevealItem";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- heterogeneous component registry, each entry has different props
 const COMPONENT_MAP: Record<string, ComponentType<any>> = {
@@ -48,9 +48,9 @@ export function mapComponents(componentsProps: Entry<Record<string, unknown>>[])
     const Component = COMPONENT_MAP[componentName];
     if (!Component) throw new Error(`Component ${componentName} is missing.`);
     return (
-      <GridItem key={props.sys?.id ?? index} $fullWidth={!HALF_WIDTH_TYPES.has(componentName)}>
+      <RevealItem key={props.sys?.id ?? index} fullWidth={!HALF_WIDTH_TYPES.has(componentName)}>
         <Component {...props} />
-      </GridItem>
+      </RevealItem>
     );
   });
 }

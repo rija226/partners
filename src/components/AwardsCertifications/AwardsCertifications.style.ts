@@ -44,6 +44,7 @@ export const ArrowButton = styled.button`
   font-size: 1.125rem;
   cursor: pointer;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover:not(:disabled) {
     border-color: ${({ theme }) => theme.colors.primary};
   }

@@ -29,8 +29,15 @@ export default function SearchBox() {
         setOpen(false);
       }
     }
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpen(false);
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [open]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -45,6 +52,7 @@ export default function SearchBox() {
     <S.Wrapper ref={wrapperRef}>
       <S.IconButton
         type="button"
+        $active={open}
         onClick={() => setOpen((v) => !v)}
         aria-label={t("search.label")}
         aria-expanded={open}

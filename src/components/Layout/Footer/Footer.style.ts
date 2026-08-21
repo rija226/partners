@@ -45,6 +45,7 @@ export const ExternalLink = styled.a`
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: none;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     color: ${({ theme }) => theme.colors.accent};
   }
@@ -70,6 +71,7 @@ export const TermsLink = styled(Link)`
   color: ${({ theme }) => theme.colors.primary};
   text-decoration: underline;
 
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
   &:hover {
     color: ${({ theme }) => theme.colors.accent};
   }

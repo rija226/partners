@@ -11,11 +11,15 @@
   "language": {
     "label": "Language"
   },
+  "mobileMenu": {
+    "title": "Menu"
+  },
   "detail": {
     "amenities": "Amenities"
   },
   "accommodation": {
     "label": "Accommodation",
+    "destination": "Destination",
     "byType": "By type",
     "all": "All",
     "in": "in",
