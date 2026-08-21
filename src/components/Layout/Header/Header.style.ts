@@ -28,7 +28,11 @@ export const Bar = styled.div`
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  height: 6.5rem;
+  height: 4.5rem;
+
+  @media (min-width: 1024px) {
+    height: 6.5rem;
+  }
 `;
 
 export const LeftGroup = styled.div`
