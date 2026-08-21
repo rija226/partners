@@ -1,11 +1,20 @@
 import styled from "styled-components";
 import Link from "next/link";
 
+// Positioned independently of Header.Bar's flex row (not a sibling flex item in it) — Bar's
+// original flex + justify-content:space-between layout only ever accounted for 3 children
+// (nav, logo, RightGroup); adding this as a 4th item there is what broke the logo's centering
+// and sizing on desktop previously. Wrapper (Header.style.ts) is position:fixed, so this
+// absolute positioning is relative to it regardless of where in the DOM this button sits.
 export const ToggleButton = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.3rem;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;

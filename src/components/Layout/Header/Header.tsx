@@ -9,12 +9,9 @@ export default function Header() {
   return (
     <S.Wrapper>
       <S.Bar>
-        <S.LeftGroup>
-          <nav>
-            <AccommodationDropdown />
-          </nav>
-          <MobileMenu />
-        </S.LeftGroup>
+        <nav>
+          <AccommodationDropdown />
+        </nav>
         <S.LogoLink href="/">
           <Image
             src="/cropped-PL-Partners-LOGO-manji.png"
@@ -30,6 +27,7 @@ export default function Header() {
           <LanguageSwitcher />
         </S.RightGroup>
       </S.Bar>
+      <MobileMenu />
     </S.Wrapper>
   );
 }
