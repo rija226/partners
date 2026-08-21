@@ -1,99 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslation } from "next-i18next/pages";
-import type { Entry } from "@adapters/contentful-response.adapter";
-import type { Accommodation, AccommodationCategory } from "@/src/types/accommodation.types";
+import type { AccommodationCategory } from "@/src/types/accommodation.types";
+import { useAccommodationGroups, toHref, categoryHref, locationHref } from "./useAccommodationGroups";
 import * as S from "./AccommodationDropdown.style";
 
-// Contentful URLs are stored with a trailing slash (e.g. "/accommodation/hotel-parentium/"),
-// but Next's default routing redirects trailing-slash URLs to their canonical no-slash form —
-// strip it here so links go straight there instead of via an extra redirect.
-function toHref(url: string): string {
-  return url.length > 1 && url.endsWith("/") ? url.slice(0, -1) : url;
-}
-
-const CATEGORY_ORDER: { category: AccommodationCategory; labelKey: string }[] = [
-  { category: "Hotel", labelKey: "hotels" },
-  { category: "Apartment", labelKey: "apartments" },
-  { category: "Villa", labelKey: "villas" },
-  { category: "Campsites", labelKey: "campsites" },
-  { category: "Mobile Home", labelKey: "mobileHomes" },
-  { category: "Glamping", labelKey: "glamping" },
-  { category: "Naturist", labelKey: "naturist" },
-];
-
-// Known locations show first, in this order; anything else (or missing location) falls back
-// to a single "Other" bucket at the end — e.g. Hotel Parentium currently has no location set.
-const LOCATION_ORDER = ["Poreč", "Umag"];
-
-function categoryHref(category: AccommodationCategory | "MICE", location?: string): string {
-  const params = new URLSearchParams(category === "MICE" ? { mice: "1" } : { type: category });
-  if (location) params.set("location", location);
-  return `/accommodation?${params.toString()}`;
-}
-
-function locationHref(location?: string): string {
-  return location ? `/accommodation?location=${encodeURIComponent(location)}` : "/accommodation";
-}
-
-type CategoryGroup = { category: AccommodationCategory | "MICE"; labelKey: string; items: Entry<Accommodation>[] };
-type LocationGroup = { location: string; categories: CategoryGroup[] };
-
-function groupByLocationThenType(items: Entry<Accommodation>[]): LocationGroup[] {
-  const byLocation = new Map<string, Entry<Accommodation>[]>();
-  for (const item of items) {
-    const location = item.location ?? "";
-    byLocation.set(location, [...(byLocation.get(location) ?? []), item]);
-  }
-
-  const groups = Array.from(byLocation.entries()).map(([location, locationItems]) => {
-    const categories: CategoryGroup[] = CATEGORY_ORDER.map((entry) => ({
-      ...entry,
-      items: locationItems.filter((item) => item.type === entry.category),
-    })).filter((entry) => entry.items.length > 0);
-
-    // MICE isn't a `type` value — it's a cross-cutting flag an item can have alongside any
-    // type (e.g. a Hotel can also be MICE), so it's appended as its own bucket rather than
-    // going through the type-based filter above.
-    const miceItems = locationItems.filter((item) => item.mice);
-    if (miceItems.length > 0) {
-      categories.push({ category: "MICE", labelKey: "mice", items: miceItems });
-    }
-
-    return { location, categories };
-  });
-
-  return groups.sort((a, b) => {
-    const aIndex = LOCATION_ORDER.indexOf(a.location);
-    const bIndex = LOCATION_ORDER.indexOf(b.location);
-    if (aIndex === -1 && bIndex === -1) return 0;
-    if (aIndex === -1) return 1;
-    if (bIndex === -1) return -1;
-    return aIndex - bIndex;
-  });
-}
-
+// Desktop-only: hover-driven 3-level flyout (destination -> category -> items). Below the
+// 1024px breakpoint this whole component is hidden (S.Wrapper) in favor of AccommodationAccordion
+// in the mobile menu, since hover doesn't exist on touch and side-flyouts have nowhere to open
+// into on a narrow screen.
 export default function AccommodationDropdown() {
   const { t } = useTranslation("common");
   const [open, setOpen] = useState(false);
-  const [accommodations, setAccommodations] = useState<Entry<Accommodation>[] | null>(null);
+  const { accommodations, locationGroups } = useAccommodationGroups();
   const [openLocation, setOpenLocation] = useState<string | null>(null);
   const [openCategory, setOpenCategory] = useState<AccommodationCategory | "MICE" | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/accommodations")
-      .then((res) => res.json())
-      .then((data: Entry<Accommodation>[]) => {
-        if (!cancelled) setAccommodations(data);
-      })
-      .catch(() => {
-        if (!cancelled) setAccommodations([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const openMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -108,8 +29,6 @@ export default function AccommodationDropdown() {
       setOpenCategory(null);
     }, 150);
   };
-
-  const locationGroups = groupByLocationThenType(accommodations ?? []);
 
   return (
     <S.Wrapper onMouseEnter={openMenu} onMouseLeave={scheduleClose}>

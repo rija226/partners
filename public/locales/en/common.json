@@ -8,6 +8,9 @@
     "placeholder": "Search accommodation",
     "resultsFor": "Search results for \"{{query}}\""
   },
+  "language": {
+    "label": "Language"
+  },
   "detail": {
     "amenities": "Amenities"
   },

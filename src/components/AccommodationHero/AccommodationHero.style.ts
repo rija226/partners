@@ -12,9 +12,15 @@ export const Stars = styled.p`
 `;
 
 export const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 1.375rem;
   font-weight: 700;
   color: ${({ theme }) => theme.colors.primary};
-  white-space: nowrap;
   margin: 0;
+
+  /* Only forced onto one line from tablet width up, where there's room — on a narrow phone a
+     long hotel name (e.g. "Hotel Materada Plava Laguna") would otherwise overflow the screen. */
+  @media (min-width: 640px) {
+    font-size: 2rem;
+    white-space: nowrap;
+  }
 `;

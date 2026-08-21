@@ -38,7 +38,10 @@ export const HeroContent = styled.div`
 // Both logo files are the same 2:1 (1418x709) aspect ratio — a fixed size here (not
 // object-fit:contain within an arbitrary box) is what guarantees they render at identical
 // dimensions regardless of which one is showing.
+// Hidden below tablet width — at 11rem wide it would overlap HeroContent's title/badges text
+// on a narrow phone screen; it's a secondary brand mark, safe to drop there.
 export const LogoBox = styled.div`
+  display: none;
   position: absolute;
   z-index: 2;
   right: 0;
@@ -46,6 +49,10 @@ export const LogoBox = styled.div`
   transform: translateY(-50%);
   width: 11rem;
   height: 5.5rem;
+
+  @media (min-width: 640px) {
+    display: block;
+  }
 `;
 
 export const BadgeRow = styled.div`

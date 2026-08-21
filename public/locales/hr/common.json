@@ -8,6 +8,9 @@
     "placeholder": "Pretraži smještaj",
     "resultsFor": "Rezultati pretrage za \"{{query}}\""
   },
+  "language": {
+    "label": "Jezik"
+  },
   "detail": {
     "amenities": "Sadržaji"
   },

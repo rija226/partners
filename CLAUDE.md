@@ -445,3 +445,43 @@ deploy live:
   — verified by checking `.next/server/pages/[...slug].js.nft.json` actually lists
   `../../../next-i18next.config.js` after the fix. If another runtime-loaded (not statically
   imported) file ever gets added, it needs adding to this same trace-include list.
+
+## Responsive (tablet + mobile)
+
+Breakpoints: **mobile** < 640px, **tablet** 640–1024px, **desktop** ≥ 1024px — matches the
+breakpoints already used throughout (Card/CmsPage/GalleryBlock/InfoCard grid columns).
+
+- **Header nav below 1024px is a completely different component, not a CSS-collapsed version of
+  the desktop one.** `AccommodationDropdown` (desktop) is a hover-driven 3-level flyout that
+  opens sideways (`left: 100%`) — there's no hover on touch and no room for a sideways flyout on
+  a narrow screen, so trying to make the same component "responsive" would mean fighting its own
+  interaction model. Instead: `AccommodationDropdown.Wrapper` is `display:none` below 1024px, and
+  a separate `AccommodationAccordion` (tap-to-expand, stacked vertically, indented) renders inside
+  `MobileMenu`'s full-screen overlay instead. Both share the same data/fetch/grouping logic via
+  `useAccommodationGroups.ts` (extracted specifically for this split) — only the presentation
+  differs. Same split for `LanguageSwitcher`/`SearchBox` (desktop, hidden <1024px via
+  `Header.style.ts`'s `RightGroup`) vs. the language list / search form built inline inside
+  `MobileMenu.tsx` (not the same components reused, since their hover/click-to-toggle-dropdown
+  interaction doesn't fit inside an already-open overlay).
+- **`Header.style.ts`'s `Bar` is a 3-column CSS grid (`1fr auto 1fr`), not `flex` +
+  `justify-content: space-between`.** With flex space-between, `AccommodationDropdown` and
+  `MobileMenu`'s hamburger toggle sharing one DOM slot (`LeftGroup`) — exactly one visible at a
+  time via their own breakpoint CSS — still each reserve flex-item space when "hidden" via
+  `display:none` on their *child*, not the slot itself throwing off centering of the logo in the
+  middle. A grid track doesn't have that problem; the middle column is always exactly the logo's
+  width regardless of what the side columns contain.
+- **`AccommodationHero.Title`** loses its `white-space: nowrap` below 640px (kept ≥640px, per the
+  earlier explicit "keep it on one line" request) — a long hotel name would otherwise overflow a
+  phone screen. Font-size also steps down (1.375rem mobile → 2rem ≥640px).
+- **`FactSheetGroup.LogoBox`** (the Plava Laguna/Istra Camping brand mark, absolutely positioned
+  at the hero's right edge) is `display:none` below 640px — at 11rem wide it would overlap
+  `HeroContent`'s title/badges text on a phone; it's a secondary brand mark, safe to drop there
+  rather than trying to shrink/reflow it.
+- **`AwardsCertifications`'s horizontal scroll-snap slider and the login page's fluid card
+  (`width:100%; max-width:28rem`) already worked at any width without changes** — didn't touch
+  them, don't "fix" what isn't broken here.
+- Verification for this kind of work is inherently limited to what SSR HTML/build output can
+  prove (markup present, no crash) — actual visual correctness at 375px/768px (does the hamburger
+  overlay actually look right, does the accordion expand correctly) needs a real browser, which
+  isn't available in this environment. Flag that explicitly rather than claiming full visual
+  verification.

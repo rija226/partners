@@ -3,6 +3,11 @@ import Link from "next/link";
 
 export const Wrapper = styled.div`
   position: relative;
+  display: none;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
 `;
 
 export const Trigger = styled.a`
