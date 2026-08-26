@@ -46,7 +46,9 @@
     "signingIn": "Prijavljivanje...",
     "invalidPassword": "Nevažeća lozinka",
     "error": "Došlo je do greške. Molimo pokušajte ponovno.",
-    "footer": "Ovaj portal je samo za ovlaštene partnere"
+    "footer": "Ovaj portal je samo za ovlaštene partnere",
+    "forgotPasswordPrefix": "Zaboravili ste korisničko ime i/ili lozinku? Pošaljite nam e-mail na",
+    "forgotPasswordSuffix": "."
   },
   "factSheets": {
     "partnersBadge": "Partneri",

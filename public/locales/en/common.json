@@ -46,7 +46,9 @@
     "signingIn": "Signing in...",
     "invalidPassword": "Invalid password",
     "error": "An error occurred. Please try again.",
-    "footer": "This portal is for authorized partners only"
+    "footer": "This portal is for authorized partners only",
+    "forgotPasswordPrefix": "Forgot user name and/or password? Send us an e-mail at",
+    "forgotPasswordSuffix": "."
   },
   "factSheets": {
     "partnersBadge": "Partners",

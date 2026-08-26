@@ -5,8 +5,10 @@ import styled from "styled-components";
 import { useTranslation } from "next-i18next/pages";
 import { serverSideTranslations } from "next-i18next/pages/serverSideTranslations";
 import type { GetStaticProps } from "next";
+import LanguageSwitcher from "@components/LanguageSwitcher/LanguageSwitcher";
 
 const Wrapper = styled.div`
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -14,6 +16,12 @@ const Wrapper = styled.div`
   justify-content: center;
   padding: 1rem;
   background: #f8fafc;
+`;
+
+const TopBar = styled.div`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
 `;
 
 const Card = styled.div`
@@ -101,6 +109,17 @@ const FooterNote = styled.p`
   margin-top: 1.5rem;
 `;
 
+const ForgotNote = styled.p`
+  font-size: 0.8125rem;
+  color: #64748b;
+  text-align: center;
+  margin-top: 1.25rem;
+
+  a {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
 export default function LoginPage() {
   const router = useRouter();
   const { t } = useTranslation("common");
@@ -128,7 +147,15 @@ export default function LoginPage() {
       }
 
       const redirect = typeof router.query.redirect === "string" ? router.query.redirect : "/";
-      window.location.href = redirect;
+      // window.location.href is a hard navigation, so it doesn't carry Next's client-side
+      // locale context — the target path needs its own locale prefix (proxy.ts's redirect
+      // already includes one, but the no-query default "/" doesn't) or a non-default locale
+      // silently falls back to defaultLocale ("en").
+      const locale = router.locale ?? "en";
+      const hasLocalePrefix = redirect === `/${locale}` || redirect.startsWith(`/${locale}/`);
+      const target =
+        locale !== "en" && !hasLocalePrefix ? `/${locale}${redirect === "/" ? "" : redirect}` : redirect;
+      window.location.href = target;
     } catch {
       setError(t("login.error"));
       setIsLoading(false);
@@ -137,6 +164,9 @@ export default function LoginPage() {
 
   return (
     <Wrapper>
+      <TopBar>
+        <LanguageSwitcher />
+      </TopBar>
       <Card>
         <Image
           src="/cropped-PL-Partners-LOGO-manji.png"
@@ -168,6 +198,11 @@ export default function LoginPage() {
           </SubmitButton>
         </Form>
       </Card>
+      <ForgotNote>
+        {t("login.forgotPasswordPrefix")}{" "}
+        <a href="mailto:partners@plavalaguna.com">partners@plavalaguna.com</a>
+        {t("login.forgotPasswordSuffix")}
+      </ForgotNote>
       <FooterNote>{t("login.footer")}</FooterNote>
     </Wrapper>
   );

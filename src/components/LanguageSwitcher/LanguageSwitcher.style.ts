@@ -11,17 +11,16 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const Trigger = styled.button<{ $active: boolean }>`
+export const Trigger = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.3em;
-  padding: 0 0 4px;
+  padding: 0;
   border: none;
-  border-bottom: 2px solid ${({ $active }) => ($active ? NAVY : "transparent")};
   border-radius: 0;
   background: none;
   font-size: 17px;
-  font-weight: 600;
+  font-weight: 400;
   color: ${NAVY};
   cursor: pointer;
 `;

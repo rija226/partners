@@ -50,7 +50,6 @@ export default function LanguageSwitcher() {
     <S.Wrapper ref={wrapperRef} onMouseEnter={openMenu} onMouseLeave={scheduleClose}>
       <S.Trigger
         type="button"
-        $active={open}
         onClick={() => (open ? closeNow() : openMenu())}
         aria-haspopup="menu"
         aria-expanded={open}
