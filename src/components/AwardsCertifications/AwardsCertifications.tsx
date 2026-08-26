@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import type { AwardsCertificationsBlock } from "@/src/types/blocks.types";
+import { contentfulImageUrl } from "@helpers/contentful-image";
 import * as S from "./AwardsCertifications.style";
 
 export default function AwardsCertifications({ title, slides }: AwardsCertificationsBlock) {
@@ -48,7 +49,14 @@ export default function AwardsCertifications({ title, slides }: AwardsCertificat
             <S.Card key={slide.sys.id} data-card>
               {slide.image?.url && (
                 <S.ImageBox>
-                  <Image src={slide.image.url} alt={slide.title} fill style={{ objectFit: "contain", objectPosition: "left" }} sizes="256px" />
+                  <Image
+                    src={contentfulImageUrl(slide.image.url, 300)}
+                    alt={slide.title}
+                    fill
+                    unoptimized
+                    style={{ objectFit: "contain", objectPosition: "left" }}
+                    sizes="256px"
+                  />
                 </S.ImageBox>
               )}
               <S.CardTitle>{slide.title}</S.CardTitle>

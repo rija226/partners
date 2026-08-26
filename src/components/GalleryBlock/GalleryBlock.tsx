@@ -8,6 +8,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 import type { GalleryBlockType } from "@/src/types/blocks.types";
+import { contentfulImageUrl } from "@helpers/contentful-image";
 import * as S from "./GalleryBlock.style";
 
 // The `download` attribute is ignored by browsers for cross-origin URLs (images.ctfassets.net
@@ -30,8 +31,10 @@ export default function GalleryBlock({ description, images }: GalleryBlockType) 
 
   if (!images?.length) return null;
 
+  // Lightbox view uses a resized WebP (plenty for full-screen viewing) — the full-resolution
+  // original is only fetched when the user actually clicks Download, not just to look at it.
   const slides = images.map((image) => ({
-    src: image.url ?? "",
+    src: image.url ? contentfulImageUrl(image.url, 1600) : "",
     alt: image.title ?? "",
     download: image.url ? { url: image.url, filename: image.fileName ?? "image" } : undefined,
   }));
@@ -48,9 +51,10 @@ export default function GalleryBlock({ description, images }: GalleryBlockType) 
               <S.ImageBox as="button" type="button" onClick={() => setIndex(i)}>
                 {image.url && (
                   <Image
-                    src={image.url}
+                    src={contentfulImageUrl(image.url, 600)}
                     alt={caption || `${i + 1}`}
                     fill
+                    unoptimized
                     style={{ objectFit: "cover" }}
                     sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
                   />

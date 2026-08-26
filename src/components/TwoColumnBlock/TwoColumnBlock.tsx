@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useTranslation } from "next-i18next/pages";
 import type { TwoColumnBlockType } from "@/src/types/blocks.types";
 import type { FlattenedAsset } from "@/src/adapters/contentful-response.adapter";
+import { contentfulImageUrl } from "@helpers/contentful-image";
 import RichText from "@components/RichText/RichText";
 import * as S from "@components/FactSheetGroup/FactSheetGroup.style";
 import * as Own from "./TwoColumnBlock.style";
@@ -58,7 +59,7 @@ export default function TwoColumnBlock({ title, description, file1, file2, image
       <S.Hero $hasImage={Boolean(image?.url)}>
         {image?.url && (
           <>
-            <Image src={image.url} alt={title ?? ""} fill priority />
+            <Image src={contentfulImageUrl(image.url, 1600)} alt={title ?? ""} fill priority unoptimized />
             <S.HeroOverlay />
           </>
         )}

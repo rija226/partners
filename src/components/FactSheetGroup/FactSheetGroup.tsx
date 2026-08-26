@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslation } from "next-i18next/pages";
 import type { FactSheetGroup as FactSheetGroupType, FactSheetFile } from "@/src/types/factSheet.types";
+import { contentfulImageUrl } from "@helpers/contentful-image";
 import * as S from "./FactSheetGroup.style";
 
 // Both files are 1418x709 — PLA_HDNSHAPE_LAN_RGB_trimmed.png is a cropped copy of the original
@@ -71,7 +72,7 @@ export default function FactSheetGroup(props: FactSheetGroupType) {
       <S.Hero $hasImage={Boolean(image?.url)}>
         {image?.url && (
           <>
-            <Image src={image.url} alt={title} fill priority />
+            <Image src={contentfulImageUrl(image.url, 1600)} alt={title} fill priority unoptimized />
             <S.HeroOverlay />
           </>
         )}

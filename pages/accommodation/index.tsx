@@ -9,6 +9,7 @@ import Layout from "@components/Layout/Layout";
 import { getAccommodations, PAGE_REVALIDATE } from "@third-party/services/contentful-service";
 import type { Entry } from "@adapters/contentful-response.adapter";
 import type { Accommodation, AccommodationCategory } from "@/src/types/accommodation.types";
+import { contentfulImageUrl } from "@helpers/contentful-image";
 
 const CATEGORIES: { value: AccommodationCategory; labelKey: string }[] = [
   { value: "Hotel", labelKey: "hotels" },
@@ -316,9 +317,10 @@ export default function AccommodationListPage({ accommodations }: AccommodationL
                 <CardImageBox>
                   {item.featuredImage.url && (
                     <Image
-                      src={item.featuredImage.url}
+                      src={contentfulImageUrl(item.featuredImage.url, 600)}
                       alt={item.name}
                       fill
+                      unoptimized
                       style={{ objectFit: "cover" }}
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                     />
