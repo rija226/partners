@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "generate-password-hash": "node scripts/generate-password-hash.js",
-    "check-auth": "tsx scripts/check-auth.ts"
+    "check-auth": "tsx scripts/check-auth.ts",
+    "check-contentful-space": "tsx --env-file=.env.local scripts/check-contentful-space.ts"
   },
   "dependencies": {
     "@contentful/rich-text-react-renderer": "^16.2.1",

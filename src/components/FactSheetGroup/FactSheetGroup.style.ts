@@ -10,7 +10,7 @@ export const Wrapper = styled.section`
 
 export const Hero = styled.div<{ $hasImage: boolean }>`
   position: relative;
-  min-height: ${({ $hasImage }) => ($hasImage ? "18rem" : "6rem")};
+  min-height: ${({ $hasImage }) => ($hasImage ? "23rem" : "6rem")};
   display: flex;
   align-items: flex-end;
   background: ${({ $hasImage, theme }) => ($hasImage ? "transparent" : theme.colors.primary)};
@@ -28,22 +28,25 @@ export const HeroOverlay = styled.div`
   z-index: 1;
 `;
 
+// Pushed to the right edge of the flex row and right-aligned — matches FactSheetGroup's
+// LogoBox-on-the-left layout even on TwoColumnBlock, which has no logo, for visual consistency
+// across every Hero variant.
 export const HeroContent = styled.div`
   position: relative;
   z-index: 2;
   padding: 1.5rem 2rem;
   color: white;
+  margin-left: auto;
+  text-align: right;
 `;
 
 // Both logo files are the same 2:1 (1418x709) aspect ratio — a fixed size here (not
 // object-fit:contain within an arbitrary box) is what guarantees they render at identical
 // dimensions regardless of which one is showing.
-// Hidden below tablet width — at 11rem wide it would overlap HeroContent's title/badges text
-// on a narrow phone screen; it's a secondary brand mark, safe to drop there.
 export const LogoBox = styled.div`
   position: absolute;
   z-index: 2;
-  right: 0;
+  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 5.5rem;
@@ -57,6 +60,7 @@ export const LogoBox = styled.div`
 
 export const BadgeRow = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 0.5rem;
   margin-bottom: 0.75rem;
 `;
@@ -76,6 +80,7 @@ export const Badge = styled.span`
 export const TitleRow = styled.div`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.75rem;
   flex-wrap: wrap;
 `;

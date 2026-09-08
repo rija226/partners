@@ -3,6 +3,7 @@ import { keepFieldsOnly, type Entry, type FlattenedAsset } from "@adapters/conte
 import type { Page, SeoMetaData } from "@/src/types/contentful.types";
 import type { Accommodation } from "@/src/types/accommodation.types";
 import type { FactSheetGroup } from "@/src/types/factSheet.types";
+import type { NotificationSubscribers } from "@/src/types/notification.types";
 
 const config = {
   space: process.env.CONTENTFUL_SPACE_ID as string,
@@ -74,9 +75,20 @@ export async function getAccommodations(): Promise<Entry<Accommodation>[]> {
   return getEntries<Accommodation>("accommodationObject");
 }
 
+// One `notificationSubscribers` entry holds every partner email to notify on new content —
+// flattened across all entries (there's normally just one) in case that ever changes.
+// Lowercased since email providers (Resend included) can match case-sensitively, and content
+// editors won't reliably type addresses in a consistent case.
+export async function getNotificationEmails(): Promise<string[]> {
+  const entries = await getEntries<NotificationSubscribers>("notificationSubscribers");
+  return entries.flatMap((entry) => entry.emails ?? []).map((email) => email.toLowerCase());
+}
+
 // Contentful locale codes for this space (verified via `client.getLocales()`) vs. this
-// site's next-i18next locale codes — "en" here, "en-US" there.
-const CF_LOCALE: Record<string, string> = { en: "en-US", hr: "hr" };
+// site's next-i18next locale codes — both "en" here, so this is currently a 1:1 map. Kept as
+// its own lookup (not `siteLocale` used directly) because the two code spaces are conceptually
+// different and have diverged before (the previous space's default locale was "en-US").
+const CF_LOCALE: Record<string, string> = { en: "en", hr: "hr" };
 
 type RawFactSheetGroup = Omit<FactSheetGroup, "files"> & { file: FlattenedAsset };
 
@@ -84,7 +96,7 @@ type RawFactSheetGroup = Omit<FactSheetGroup, "files"> & { file: FlattenedAsset 
 // pair), but both language downloads must render together regardless of the site's current
 // locale — so fetch each locale once and merge the `file` from the non-current locale in.
 // Everything else (title/subtitle/description) comes from the current-locale fetch, which
-// already has Contentful's own fallback-to-en-US applied server-side.
+// already has Contentful's own fallback-to-default-locale applied server-side.
 export async function getFactSheetGroups(siteLocale: string): Promise<Entry<FactSheetGroup>[]> {
   const isHr = siteLocale === "hr";
   const primaryLocale = isHr ? CF_LOCALE.hr : CF_LOCALE.en;

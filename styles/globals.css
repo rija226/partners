@@ -11,9 +11,9 @@ body {
 body {
   color: #171717;
   background: #ffffff;
-  /* Circe itself is applied via next/font's `circe.className` on <body> (pages/_document.tsx)
-     — its generated class has higher specificity than this rule, so this is just the fallback
-     stack for the (very unlikely) case that class is ever missing. */
+  /* Circe itself is applied via next/font's `circe.className` on the wrapper div in
+     pages/_app.tsx — its generated class has higher specificity than this rule, so this is just
+     the fallback stack for the (very unlikely) case that class is ever missing. */
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,6 +23,17 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+/* Form controls don't inherit font-family from the page by default (the browser gives them its
+   own UI font instead) — without this, every styled.button/input (nav dropdown triggers, search
+   box, filter pills, mobile menu, etc.) silently renders outside Circe. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
 }
 
 a {

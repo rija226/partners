@@ -5,7 +5,10 @@ import { COOKIE_NAME } from "./src/helpers/auth-cookie-name";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.includes("/login") || pathname.startsWith("/api/")) {
+  // /admin/* has its own separate auth (a different password/cookie, checked by the admin
+  // pages themselves via getServerSideProps) — it's an internal tool, not partner-facing, so
+  // it must never be gated by the partner cookie check below.
+  if (pathname.includes("/login") || pathname.startsWith("/api/") || pathname.startsWith("/admin")) {
     return NextResponse.next();
   }
 

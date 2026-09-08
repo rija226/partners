@@ -7,6 +7,7 @@ async function generateHash(password) {
 
 async function main() {
   let password = process.argv[2];
+  const envVarName = process.argv[3] || "PARTNER_PASSWORD";
 
   if (!password) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -31,7 +32,7 @@ async function main() {
   console.log("\nPassword hash generated:");
   console.log(hash);
   console.log("\nAdd this to your .env.local file (note the escaped $ signs — required):");
-  console.log(`PARTNER_PASSWORD=${envSafeHash}\n`);
+  console.log(`${envVarName}=${envSafeHash}\n`);
 }
 
 main();

@@ -44,10 +44,31 @@ export const Panel = styled.div`
   z-index: 50;
 `;
 
+// Capped so a long hotel list (Column3, mostly) can't push the panel below the viewport on a
+// shorter screen — 100vh minus roughly the header height + the panel's own top offset/shadow
+// margin, so the scrollable area always ends with some breathing room above the bottom edge.
 const columnBase = css`
   background: #fff;
   border: 1px solid ${BORDER};
   border-radius: 0;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+
+  /* Thin, brand-colored scrollbar instead of the chunky default OS one — sharp corners on the
+     thumb too, per the no-border-radius rule (browsers round it by default otherwise). */
+  scrollbar-width: thin;
+  scrollbar-color: ${CHEVRON_INACTIVE} transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: ${CHEVRON_INACTIVE};
+    border-radius: 0;
+  }
 `;
 
 // Inner columns (1 and 2) skip their own right border — the next column's left border would
@@ -69,7 +90,13 @@ export const Column3 = styled.div`
   width: 270px;
 `;
 
+// Sticky within its own column's scroll container (columnBase's overflow-y: auto) — stays
+// pinned at the top while the hotel list scrolls underneath it. Needs an opaque background
+// (already has one) so scrolled-past rows don't show through.
 export const ColumnHeader = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 1;
   background: ${NAVY};
   color: #fff;
   font-size: 10px;
